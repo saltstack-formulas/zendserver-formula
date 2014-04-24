@@ -1,0 +1,5 @@
+{% set zendserver = salt['grains.filter_by']({
+    'Ubuntu': {
+        'foo': 'bar',
+    },
+}, merge=salt['pillar.get']('zendserver:lookup')) %}
