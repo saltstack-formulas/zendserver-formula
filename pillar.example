@@ -1,0 +1,23 @@
+# Example settings for zendserver.
+zendserver:
+  # Admin password to login to the ZendServer Dashboard
+  admin_password: saltyzend
+
+  # Which versions to use for Zend Server & PHP.
+  version: 
+    zend: 6.3
+    php: 5.5
+
+  # Which webserver to use, can either be apache or nginx
+  webserver: apache
+
+  # Whether to bootstrap the Zend Server, otherwise you'll be
+  # asked to do so when you login to the ZendServer admin page.
+  bootstrap: False
+
+  # License details for ZendServer
+  # This option is Mandatory when 'Bootstrap' is True
+  #
+  #license:
+  #  order: XXXX-XXXXX-XX
+  #  serial: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
