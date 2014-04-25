@@ -5,18 +5,27 @@ zendserver:
 
   # Which versions to use for Zend Server & PHP.
   version: 
-    zend: 6.3
-    php: 5.5
+    zend: '6.3'
+    php: '5.5'
+    apache: '2.2'
 
   # Which webserver to use, can either be apache or nginx
   webserver: apache
+
+  # If Apache is in use you may want to choose to use mpm-itk
+  # separate users
+  enable_itk: False
+
+  # Whether to enable port 80 in iptables. Useful if you deny
+  # everything else
+  enable_firewall: False
 
   # Whether to bootstrap the Zend Server, otherwise you'll be
   # asked to do so when you login to the ZendServer admin page.
   bootstrap: False
 
   # License details for ZendServer
-  # This option is Mandatory when 'Bootstrap' is True
+  # This option is mandatory when 'Bootstrap' is True
   #
   #license:
   #  order: XXXX-XXXXX-XX
