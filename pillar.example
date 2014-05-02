@@ -16,10 +16,6 @@ zendserver:
   # separate users
   enable_itk: False
 
-  # Whether to enable port 80 in iptables. Useful if you deny
-  # everything else
-  enable_firewall: False
-
   # Whether to bootstrap the Zend Server, otherwise you'll be
   # asked to do so when you login to the ZendServer admin page.
   bootstrap: False

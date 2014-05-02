@@ -5,7 +5,6 @@
 {%- set php_version = salt['pillar.get']('zendserver:version:php', '5.5') %}
 {%- set webserver = salt['pillar.get']('zendserver:webserver', 'apache') %}
 {%- set enable_itk = salt['pillar.get']('zendserver:enable_itk', False) %}
-{%- set enable_firewall = salt['pillar.get']('zendserver:enable_firewall', False) %}
 {%- set bootstrap = salt['pillar.get']('zendserver:bootstrap', False) %}
 {%- set zend_license_order = salt['pillar.get']('zendserver:license:order') %}
 {%- set zend_license_serial = salt['pillar.get']('zendserver:license:serial') %}
@@ -65,22 +64,7 @@ zendserver:
     - name: zend-server-php-{{ php_version }}
 {%- endif %}
 
-# Open port 80 in the firewall
-{%- if enable_firewall %}
-firewall_port_80:
-  iptables.append:
-    - table: filter
-    - chain: INPUT
-    - jump: ACCEPT
-    - match: state
-    - connstate: NEW
-    - dport: 80
-    - proto: tcp
-    - sport: 1025:65535
-    - save: True
-{%- endif %}
-
-# Set alternative to PHP since Zend Server uses a differnet folder
+# Set alternative to PHP since Zend Server uses a different folder
 alternative-php:
   cmd.run:
     - name: update-alternatives --install /usr/bin/php php /usr/local/zend/bin/php 1
