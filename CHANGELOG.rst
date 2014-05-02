@@ -1,6 +1,9 @@
 zendserver formula
 ================
 
+0.1.2 (02-05-2014)
+- Removed firewall support (you should use my firewall formula for that instead)
+
 0.1.1 (25-05-2014)
 
 - Added support for Apache 2.4
