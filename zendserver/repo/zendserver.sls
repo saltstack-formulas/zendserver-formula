@@ -1,12 +1,17 @@
 {%- from "zendserver/map.jinja" import zendserver with context %}
 {%- set zend_version = salt['pillar.get']('zendserver:version:zend', '') %}
 {%- set apache_version = salt['pillar.get']('zendserver:version:apache') %}
+{%- set webserver = salt['pillar.get']('zendserver:webserver') %}
 
 # Install ZendServer repository
 zendserver_repo:
   pkgrepo.managed:
     - humanname: ZendServer PPA
-    - name: deb http://repos.zend.com/zend-server/{{ zend_version }}/deb{{'_apache2.4' if apache_version == '2.4' else ''}} server non-free
+    {% if webserver == 'apache' and apache_version == '2.4' %}    
+    - name: deb http://repos.zend.com/zend-server/deb_apache2.4 server non-free
+    {% else %}
+    - name: deb http://repos.zend.com/zend-server/deb server non-free
+    {% endif %}
     - file: /etc/apt/sources.list.d/zendserver.list
     - keyid: F7D2C623
     - key_url: http://repos.zend.com/zend.key

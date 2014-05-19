@@ -72,6 +72,20 @@ alternative-php:
       - pkg: zendserver
     - unless: test -L /usr/bin/php
 
+alternative-pear:
+  cmd.run:
+    - name: update-alternatives --install /usr/bin/pear pear /usr/local/zend/bin/pear 1
+    - require:
+      - pkg: zendserver
+    - unless: test -L /usr/bin/pear
+
+alternative-pecl:
+  cmd.run:
+    - name: update-alternatives --install /usr/bin/pecl pecl /usr/local/zend/bin/pecl 1
+    - require:
+      - pkg: zendserver
+    - unless: test -L /usr/bin/pecl
+
 # Bootstrap Zend-Server to prevent first-run wizard while accessing the admin panel
 {%- if bootstrap %}
 bootstrap-zs:
