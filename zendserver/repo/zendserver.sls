@@ -8,9 +8,9 @@ zendserver_repo:
   pkgrepo.managed:
     - humanname: ZendServer PPA
     {% if webserver == 'apache' and apache_version == '2.4' %}    
-    - name: deb http://repos.zend.com/zend-server/deb_apache2.4 server non-free
+    - name: deb http://repos.zend.com/zend-server/{{zend_version}}/deb_apache2.4 server non-free
     {% else %}
-    - name: deb http://repos.zend.com/zend-server/deb server non-free
+    - name: deb http://repos.zend.com/zend-server/{{zend_version}}/deb server non-free
     {% endif %}
     - file: /etc/apt/sources.list.d/zendserver.list
     - keyid: F7D2C623
