@@ -113,4 +113,3 @@ bootstrap-zs:
       - file: zs-admin
     - unless: test -e /etc/zendserver/zs-admin.txt
 {%- endif %}
-
