@@ -86,17 +86,6 @@ alternative-pecl:
       - pkg: zendserver
     - unless: test -L /usr/bin/pecl
 
-# Bootstrap Zend-Server to prevent first-run wizard while accessing the admin panel
-{%- if bootstrap %}
-bootstrap-zs:
-  cmd.run:
-    - name: /usr/local/zend/bin/zs-manage bootstrap-single-server -p {{ zend_admin_pass }} -o {{ zend_license_order }} -l {{ zend_license_serial }} -a TRUE -r FALSE
-    - require:
-      - cmd: alternative-php
-      - file: zs-admin
-    - unless: test -e /etc/zendserver/zs-admin.txt
-{%- endif %}
-
 /etc/zendserver:
   file.directory:
     - makedirs: True
@@ -113,3 +102,15 @@ zs-admin:
     - require:
       - file: /etc/zendserver
     - unless: test -e /etc/zendserver/zs-admin.txt
+
+# Bootstrap Zend-Server to prevent first-run wizard while accessing the admin panel
+{%- if bootstrap %}
+bootstrap-zs:
+  cmd.run:
+    - name: /usr/local/zend/bin/zs-manage bootstrap-single-server -p {{ zend_admin_pass }} -o {{ zend_license_order }} -l {{ zend_license_serial }} -a TRUE -r FALSE
+    - require:
+      - cmd: alternative-php
+      - file: zs-admin
+    - unless: test -e /etc/zendserver/zs-admin.txt
+{%- endif %}
+
