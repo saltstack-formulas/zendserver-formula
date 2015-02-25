@@ -86,6 +86,20 @@ alternative-pecl:
       - pkg: zendserver
     - unless: test -L /usr/bin/pecl
 
+alternative-php-config:
+  cmd.run:
+    - name: update-alternatives --install /usr/bin/php-config php-config /usr/local/zend/bin/php-config 1
+    - require:
+      - pkg: zendserver
+    - unless: test -L /usr/bin/php-config
+
+alternative-phpize:
+  cmd.run:
+    - name: update-alternatives --install /usr/bin/phpize phpize /usr/local/zend/bin/phpize 1
+    - require:
+      - pkg: zendserver
+    - unless: test -L /usr/bin/phpize
+
 /etc/zendserver:
   file.directory:
     - makedirs: True
