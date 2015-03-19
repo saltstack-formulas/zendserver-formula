@@ -5,8 +5,8 @@ zendserver:
 
   # Which versions to use for Zend Server & PHP.
   version: 
-    zend: '6.3'
-    php: '5.5'
+    zend: '8.0.2'
+    php: '5.6'
     apache: '2.2'
 
   # Which webserver to use, can either be apache or nginx
@@ -26,3 +26,15 @@ zendserver:
   #license:
   #  order: XXXX-XXXXX-XX
   #  serial: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+  # To enable automatic bootstrapping using development settings and a 30-day trial
+  #bootstrap_dev: True
+
+  # Extensions can be managed:
+  #enable_extensions:
+  #  - imagick
+  #  - pcntl
+
+  # And turned off
+  #disable_extensions:
+  #  - db2

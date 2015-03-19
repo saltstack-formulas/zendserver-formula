@@ -6,6 +6,7 @@
 {%- set webserver = salt['pillar.get']('zendserver:webserver', 'apache') %}
 {%- set enable_itk = salt['pillar.get']('zendserver:enable_itk', False) %}
 {%- set bootstrap = salt['pillar.get']('zendserver:bootstrap', False) %}
+{%- set bootstrap_dev = salt['pillar.get']('zendserver:bootstrap_dev', False) %}
 {%- set zend_license_order = salt['pillar.get']('zendserver:license:order') %}
 {%- set zend_license_serial = salt['pillar.get']('zendserver:license:serial') %}
 
@@ -95,14 +96,6 @@ alternative-pecl:
     - require:
       - pkg: zendserver
 
-zs-admin:
-  file.managed:
-    - name: /etc/zendserver/zs-admin.txt
-    - contents: {{ zend_admin_pass }}
-    - require:
-      - file: /etc/zendserver
-    - unless: test -e /etc/zendserver/zs-admin.txt
-
 # Bootstrap Zend-Server to prevent first-run wizard while accessing the admin panel
 {%- if bootstrap %}
 bootstrap-zs:
@@ -112,4 +105,32 @@ bootstrap-zs:
       - cmd: alternative-php
       - file: zs-admin
     - unless: test -e /etc/zendserver/zs-admin.txt
+{%- endif %}
+
+# Bootstrap will give you a fresh error if you decide to bootstrap an already bootstrapped server.
+# Beware: a bash dependency might have been introduced here regarding environment variable handling.
+{%- if bootstrap_dev %}
+bootstrap-zs-dev:
+  cmd.run:
+    - name: "api_key=`/usr/local/zend/bin/zs-manage bootstrap-single-server -p admin -a True -r False | head -n 1 | cut -f2`; echo 'grains:\n  zend-server:\n    mode: development\n    api:\n      enabled: True\n      key: '$api_key >> /etc/salt/minion.d/zendserver.conf; /usr/local/zend/bin/zs-manage restart -N admin -K $api_key"
+    - require:
+      - cmd: alternative-php
+#      - file: zs-admin # is executed anyway atfter this state
+    - unless: test -e /etc/zendserver/zs-admin.txt #makes sure we can't bootstrap twice
+{%- endif %}
+
+#Moved down in case salt decides to run this before bootstrapping, can still be required as a dependency
+zs-admin:
+  file.managed:
+    - name: /etc/zendserver/zs-admin.txt
+    - contents: {{ zend_admin_pass }}
+    - require:
+      - file: /etc/zendserver
+    - unless: test -e /etc/zendserver/zs-admin.txt
+
+{%- if webserver == 'nginx' %}
+/etc/init.d/php-fpm:
+  file.symlink:
+    - target: /usr/local/zend/bin/php-fpm.sh
+
 {%- endif %}
