@@ -1,5 +1,11 @@
 zendserver formula
 ================
+
+0.1.4 (19-03-2015)
+- Added extension management
+- Added development mode deploy
+- Added the ability to store the API key after deployment
+
 0.1.3 (19-05-2014)
 - Added alternatives for pear & pecl
 - Fix: Nginx should not use Apache 2.4 repo if version is set
