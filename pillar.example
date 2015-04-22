@@ -4,7 +4,7 @@ zendserver:
   admin_password: saltyzend
 
   # Which versions to use for Zend Server & PHP.
-  version: 
+  version:
     zend: '8.0.2'
     php: '5.6'
     apache: '2.2'
@@ -38,3 +38,7 @@ zendserver:
   # And turned off
   #disable_extensions:
   #  - db2
+
+  # Directives to be set or modified
+  #directives:
+  #  - zray.zendserver_ui_url: "https://your.server.example.com:10082/ZendServer"
