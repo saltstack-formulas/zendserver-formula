@@ -21,8 +21,8 @@
 zendserver.directives:
  cmd.run:
     - name: {% if 'directives' in salt['pillar.get']('zendserver', {}) -%}
-{% for directive_set, directive_data in salt['pillar.get']('zendserver:directives') -%}
-/usr/local/zend/bin/zs-manage store-directive -d {{ directive_set }} -v {{ directive_data }}  -N admin -K {{ zend_api_key }}; {% endfor -%}
+{% for directive_key, directive_value in salt['pillar.get']('zendserver:directives', {}).items() -%}
+/usr/local/zend/bin/zs-manage store-directive -d {{ directive_key }} -v {{ directive_value }}  -N admin -K {{ zend_api_key }}; {% endfor -%}
 {% set must_restart_zend = True %}
 {% endif %}
 
