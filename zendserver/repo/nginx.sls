@@ -15,6 +15,7 @@ nginx_repo:
 {%- else %}
     - name: deb http://nginx.org/packages/ubuntu/ {{ lsb_codename }} nginx
     - dist: {{ lsb_codename }}
+{%- endif %}
 {%- else %}
     - dist: {{ lsb_codename }}
     - name: deb http://nginx.org/packages/{{ lsb_distrib_id }}/ {{ lsb_codename }} nginx
