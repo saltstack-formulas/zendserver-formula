@@ -14,7 +14,7 @@
 # Enable extensions if set
 zendserver.enable_extensions:
  cmd.run:
-    - name: {% if 'enable_extensions' in salt['pillar.get']('zendserver', {}) -%}
+    - name: true; {% if 'enable_extensions' in salt['pillar.get']('zendserver', {}) -%}
 {% for extension_on in salt['pillar.get']('zendserver:enable_extensions') -%}
 /usr/local/zend/bin/zs-manage extension-on -e {{ extension_on }} -N admin -K {{ zend_api_key }}; {% endfor -%}
 {% set must_restart_zend = True %}
@@ -23,7 +23,7 @@ zendserver.enable_extensions:
 # Disable extensions if set
 zendserver.disable_extensions:
  cmd.run:
-    - name: {% if 'disable_extensions' in salt['pillar.get']('zendserver', {}) -%}
+    - name: true; {% if 'disable_extensions' in salt['pillar.get']('zendserver', {}) -%}
 {% for extension_off in salt['pillar.get']('zendserver:disable_extensions') -%}
 /usr/local/zend/bin/zs-manage extension-off -e {{ extension_off }} -N admin -K {{ zend_api_key }}; {% endfor -%}
 {% set must_restart_zend = True %}
