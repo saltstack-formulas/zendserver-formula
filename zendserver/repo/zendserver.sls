@@ -9,6 +9,8 @@ zendserver_repo:
     - humanname: ZendServer PPA
     {% if webserver == 'apache' and apache_version == '2.4' %}
     - name: deb http://repos.zend.com/zend-server/{{zend_version}}/deb_apache2.4 server non-free
+    {% elif zend_version == '8.5' %}
+    - name: deb http://repos.zend.com/zend-server/{{zend_version}}/deb_ssl1.0 server non-free
     {% else %}
     - name: deb http://repos.zend.com/zend-server/{{zend_version}}/deb_ssl1.0 server non-free
     {% endif %}
