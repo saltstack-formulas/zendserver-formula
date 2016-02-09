@@ -1,6 +1,8 @@
 zendserver formula
 ================
 
+0.1.6 (05-02-2016)
+- Added NGINX Mainline support to the repo
 
 0.1.5 (19-03-2015)
 - Added extension management

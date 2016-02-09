@@ -16,6 +16,9 @@ zendserver:
   # separate users
   enable_itk: False
 
+  # Whether to use the nginx mainline repo or default stable
+  nginx_mainline: False
+
   # Whether to bootstrap the Zend Server, otherwise you'll be
   # asked to do so when you login to the ZendServer admin page.
   bootstrap: False
