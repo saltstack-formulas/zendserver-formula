@@ -1,8 +1,8 @@
 # Install Nginx repository
 {%- set repo_url = 'http://nginx.org/packages' %}
 
-{%- set lsb_codename = salt['grains.get']('oscodename') %}
-{%- set lsb_distrib_id = salt['grains.get']('lsb_distrib_id') %}
+{%- set lsb_codename = salt['grains.get']('oscodename')|lower %}
+{%- set lsb_distrib_id = salt['grains.get']('lsb_distrib_id')|lower %}
 
 # Handle mainline switch
 {%- if salt['pillar.get']('zendserver:nginx_mainline', False) %}

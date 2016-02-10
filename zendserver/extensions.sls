@@ -6,10 +6,10 @@
 # all extension-on and extension-off calls. (so at most once every highstate)
 
 # Check if the server has been bootstrapped and the key was saved
-{% if salt['grains.get']('zend-server:api:enabled') %}
+{% if salt['grains.get']('zendserver:api:enabled', False) == True %}
 
 # Get the key
-{% set zend_api_key = salt['grains.get']('zend-server:api:key') %}
+{% set zend_api_key = salt['grains.get']('zendserver:api:key') %}
 
 # Enable extensions if set
 zendserver.enable_extensions:
