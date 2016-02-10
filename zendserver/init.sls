@@ -110,30 +110,42 @@ alternative-phpize:
     - require:
       - pkg: zendserver
 
+/etc/zendserver/bootstrap-zs.sh:
+  file.managed:
+    - source: salt://zendserver/files/bootstrap-zs.sh
+    - user: root
+    - group: adm
+    - mode: 740
+
 # Bootstrap Zend-Server to prevent first-run wizard while accessing the admin panel
 {%- if bootstrap %}
 bootstrap-zs:
   cmd.run:
-    - name: /usr/local/zend/bin/zs-manage bootstrap-single-server -p {{ zend_admin_pass }} -o {{ zend_license_order }} -l {{ zend_license_serial }} -a TRUE -r FALSE
+    - name: "/etc/zendserver/bootstrap-zs.sh {{ zend_admin_pass }} {{ zend_license_order }} {{ zend_license_serial }}"
     - require:
       - cmd: alternative-php
-      - file: zs-admin
+      - file: /etc/zendserver/bootstrap-zs.sh
     - unless: test -e /etc/zendserver/zs-admin.txt
 {%- endif %}
 
-# Bootstrap will give you a fresh error if you decide to bootstrap an already bootstrapped server.
-# Beware: a bash dependency might have been introduced here regarding environment variable handling.
 {%- if bootstrap_dev %}
 bootstrap-zs-dev:
   cmd.run:
-    - name: "api_key=`/usr/local/zend/bin/zs-manage bootstrap-single-server -p admin -a True -r False | head -n 1 | cut -f2`; echo 'grains:\n  zend-server:\n    mode: development\n    api:\n      enabled: True\n      key: '$api_key >> /etc/salt/minion.d/zendserver.conf; /usr/local/zend/bin/zs-manage restart -N admin -K $api_key"
+    - name: /etc/zendserver/bootstrap-zs.sh
     - require:
       - cmd: alternative-php
-#      - file: zs-admin # is executed anyway atfter this state
-    - unless: test -e /etc/zendserver/zs-admin.txt #makes sure we can't bootstrap twice
+      - file: /etc/zendserver/bootstrap-zs.sh
+    - unless: test -e /etc/zendserver/zs-admin.txt
 {%- endif %}
 
+{% if bootstrap or bootstrap_dev %}
+refresh-zs-grains:
+  module.run:
+    - name: saltutil.sync_grains
+{% endif %}
+
 #Moved down in case salt decides to run this before bootstrapping, can still be required as a dependency
+
 zs-admin:
   file.managed:
     - name: /etc/zendserver/zs-admin.txt
@@ -141,6 +153,9 @@ zs-admin:
     - require:
       - file: /etc/zendserver
     - unless: test -e /etc/zendserver/zs-admin.txt
+  grains.present:
+    - name: zend-server:api:enabled
+    - value:
 
 {%- if webserver == 'nginx' %}
 /etc/init.d/php-fpm:
